@@ -9,7 +9,6 @@
 
 .home {
   &__title {
-    display: block;
     margin: 40px 0px;
   }
 }
@@ -28,13 +27,16 @@
     height: 40px;
     border-bottom-right-radius: 6px;
     border-top-right-radius: 6px;
-    background-color: #ffff;
+    background-color: #f7f7f7;
   }
   select {
     height: 39.8px;
     border-bottom-left-radius: 6px;
     border-top-left-radius: 6px;
     background-color: #58dad5;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__list {
@@ -55,7 +57,7 @@
     width: 100%;
     padding: 20px 0px;
     border-right: 1px solid black;
-    border-bottom: 1px solid white;
+    border-bottom: 0.8px solid #58dad5;
 
     &:hover {
       background-color: rgb(106, 106, 106);
