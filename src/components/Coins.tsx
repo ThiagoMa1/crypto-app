@@ -1,4 +1,6 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
+
 import "./Coins.styles.scss";
 
 interface IProps {
@@ -10,6 +12,7 @@ interface IProps {
   dayPercentage: number;
   marketCap: number;
   id: string;
+  cc: string;
 }
 
 const Coins: FC<IProps> = ({
@@ -21,22 +24,48 @@ const Coins: FC<IProps> = ({
   dayPercentage,
   marketCap,
   id,
-}) => {
+  cc,
+}): any => {
+  const handleFormatting = (num: number): string => {
+    if (cc !== "brl" && cc !== "eur" && cc !== "cad" && cc !== "usd") {
+      const newCurrency = new Intl.NumberFormat(undefined, {
+        maximumSignificantDigits: 12,
+      }).format(+num.toFixed(2));
+
+      return `${newCurrency} ${cc.toUpperCase()}`;
+    } else {
+      const newCurrency = new Intl.NumberFormat(undefined, {
+        style: "currency",
+        currency: cc,
+        maximumSignificantDigits: 12,
+      }).format(+num.toFixed(2));
+      console.log(newCurrency);
+      return newCurrency;
+    }
+  };
+
+  if (!name || !hourPercentage) return;
   return (
     <>
-      <div className="coin">
+      <section className="coin">
         <div className="coin__infos">
-          {/* <div className="coin__image"> */}
-          <img src={img} alt={`${name} logo`} />
-          {/* </div> */}
-          <p>{name}</p>
-          <p>{symbol.toUpperCase()}</p>
-          <p>{price}</p>
-          <p>{hourPercentage.toFixed(2)}</p>
-          <p>{dayPercentage.toFixed(2)}</p>
-          <p>{marketCap}</p>
+          <figure>
+            <img src={img} alt={`${name} logo`} />
+            <p className="coin__name">{name}</p>
+            <p className="coin__symbol">{symbol.toUpperCase()}</p>
+          </figure>
+
+          <p className="coin__price">{handleFormatting(price)}</p>
+          <p className={hourPercentage < 0 ? "negative" : "positive"}>
+            {`${hourPercentage.toFixed(2)}%`}
+          </p>
+          <p className={dayPercentage < 0 ? "negative" : "positive"}>
+            {`${dayPercentage.toFixed(2)}%`}
+          </p>
+          <p>{handleFormatting(marketCap)}</p>
         </div>
-      </div>
+        <Link to={`/coin/${id}`}>Mais Infos</Link>
+      </section>
       <div className="coin__border"></div>
     </>
   );

@@ -1,32 +1,76 @@
 .coin {
-  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-shadow: 0 0 6px black;
+  padding: 0.6rem;
 
   &__infos {
-    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    width: 89.2%;
+    overflow: hidden;
+
+    .negative {
+      color: #841613;
+    }
+    .positive {
+      color: #5ca64a;
+    }
+
+    figure {
+      width: 46%;
+      display: flex;
+      align-items: center;
+
+      p:first-of-type {
+        margin-left: 10%;
+        text-align: initial;
+        font-weight: 700;
+      }
+
+      .coin__symbol {
+        margin-left: 5%;
+        color: #4a4a4a;
+      }
+    }
 
     p {
+      display: inline-block;
       text-align: center;
-      width: 15.94%;
     }
 
-    p:first-of-type {
-      text-align: start;
-      margin-left: -20px;
+    p:not(figure p:first-of-type, p:last-child) {
+      width: 19.5%;
     }
-  }
-  img {
-    width: 40px;
-    height: 40px;
-    margin-right: 40px;
-    margin-left: 0px;
+
+    p:last-of-type {
+      width: 28.95%;
+      position: relative;
+      left: 1rem;
+      text-align: initial;
+    }
   }
 
   &__border {
     border-bottom: 1px solid white;
-    margin: 10px 0px;
+    margin: 5px 0 10px 0;
+  }
+}
+
+a {
+  border-radius: 4px;
+  background-color: #58dad5;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: #4a4a4a;
+  font-weight: 600;
+
+  &:hover {
+    background-color: #51c8c4;
   }
 }
