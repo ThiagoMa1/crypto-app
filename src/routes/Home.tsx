@@ -43,6 +43,9 @@ const Home: FC = () => {
       <section className="currency">
         <div className="search">
           <input
+            style={{
+              backgroundColor: localStorage.theme === "dark" ? "#2F2F2F" : "",
+            }}
             placeholder="Procurar"
             name="search"
             onChange={(e) => setSearchValue(e.target.value)}
