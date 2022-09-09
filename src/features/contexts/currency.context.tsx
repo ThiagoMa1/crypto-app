@@ -1,13 +1,13 @@
 import { createContext, useState, FC } from "react";
 
-export interface INavbarContext {
+export interface ICurrencyContext {
   userCurrency: string;
   setUserCurrency: (currency: string) => void;
 }
 
-export const NavbarContext = createContext<INavbarContext | null>(null);
+export const CurrencyContext = createContext<ICurrencyContext | null>(null);
 
-export const NavbarProvider: FC<any> = ({ children }) => {
+export const CurrencyProvider: FC<any> = ({ children }) => {
   const [userCurrency, setUserCurrencies] = useState("brl");
 
   const setUserCurrency = (currency: string) => {
@@ -15,8 +15,8 @@ export const NavbarProvider: FC<any> = ({ children }) => {
   };
 
   return (
-    <NavbarContext.Provider value={{ userCurrency, setUserCurrency }}>
+    <CurrencyContext.Provider value={{ userCurrency, setUserCurrency }}>
       {children}
-    </NavbarContext.Provider>
+    </CurrencyContext.Provider>
   );
 };

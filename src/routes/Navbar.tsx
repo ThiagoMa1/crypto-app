@@ -1,20 +1,20 @@
 import { FC, useState, useEffect, useContext } from "react";
 import {
-  NavbarContext,
-  INavbarContext,
-} from "../features/contexts/navbar.context";
+  CurrencyContext,
+  ICurrencyContext,
+} from "../features/contexts/currency.context";
 import {
   ThemeContext,
   IThemeContext,
 } from "../features/contexts/theme.context";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { ReactComponent as SunLogo } from "../assets/sun.svg";
 import { ReactComponent as MoonLogo } from "../assets/moon.svg";
 
 import "./Navbar.styles.scss";
 
 const Navbar: FC = () => {
-  const { setUserCurrency } = useContext(NavbarContext) as INavbarContext;
+  const { setUserCurrency } = useContext(CurrencyContext) as ICurrencyContext;
   const { setTheme, theme } = useContext(ThemeContext) as IThemeContext;
   const [currencies, setCurrencies] = useState<string[]>([]);
 

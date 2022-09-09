@@ -1,9 +1,9 @@
 import { FC, useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
-  NavbarContext,
-  INavbarContext,
-} from "../features/contexts/navbar.context";
+  CurrencyContext,
+  ICurrencyContext,
+} from "../features/contexts/currency.context";
 import {
   ThemeContext,
   IThemeContext,
@@ -13,7 +13,7 @@ import { handleFormatting } from "../features/utils/ultils";
 import "./CoinPage.styles.scss";
 
 const CoinPage: FC = (): any => {
-  const { userCurrency } = useContext(NavbarContext) as INavbarContext;
+  const { userCurrency } = useContext(CurrencyContext) as ICurrencyContext;
   const { theme } = useContext(ThemeContext) as IThemeContext;
 
   const { coinId } = useParams();
@@ -33,7 +33,6 @@ const CoinPage: FC = (): any => {
         }(${data.symbol.toUpperCase()}) em ${userCurrency.toUpperCase()}`;
 
         setCoin(data);
-        console.log(data);
 
         getValue(data.market_data.current_price, setPrice);
         getValue(
@@ -42,10 +41,9 @@ const CoinPage: FC = (): any => {
         );
         getValue(data.market_data.market_cap, setMarketCap);
         getValue(data.market_data.total_volume, setTotalVolume);
-        // if (data.market_data.fully_diluted_valuation.length)
         getValue(data.market_data.fully_diluted_valuation, setValuation);
       })
-      .catch((error) => alert(console.log(error)));
+      .catch((error) => alert(error));
   }, [userCurrency]);
 
   const getValue = (path: any, setFunction: any) => {

@@ -12,8 +12,8 @@ export const ThemeContext = createContext<IThemeContext | null>({
 
 export const ThemeProvider: FC<any> = ({ children }) => {
   const [theme, setTheme] = useState(localStorage.theme);
+
   localStorage.setItem("theme", theme);
-  console.log(theme);
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}

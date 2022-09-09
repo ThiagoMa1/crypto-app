@@ -1,9 +1,9 @@
 import { FC, useEffect, useState, useContext } from "react";
 import Coins from "../components/Coins";
 import {
-  NavbarContext,
-  INavbarContext,
-} from "../features/contexts/navbar.context";
+  CurrencyContext,
+  ICurrencyContext,
+} from "../features/contexts/currency.context";
 import { ReactComponent as SearchLogo } from "../assets/search.svg";
 import { Link } from "react-router-dom";
 
@@ -11,7 +11,7 @@ import "./Home.styles.scss";
 
 const Home: FC = () => {
   document.title = "Crypto Checker";
-  const { userCurrency } = useContext(NavbarContext) as INavbarContext;
+  const { userCurrency } = useContext(CurrencyContext) as ICurrencyContext;
   const [coins, setCoins] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
@@ -25,11 +25,10 @@ const Home: FC = () => {
     const req = await fetch(url);
     const data = await req.json();
 
-    console.log(data);
     setCoins(data);
   };
 
-  const searchResults = coins.filter(
+  let searchResults = coins.filter(
     (coin: any) =>
       coin.name.toLowerCase().includes(searchValue.toLowerCase()) |
       coin.symbol.toLowerCase().includes(searchValue.toLowerCase())
