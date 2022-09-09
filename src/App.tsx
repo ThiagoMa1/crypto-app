@@ -1,13 +1,17 @@
+import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./routes/Home";
 import CoinPage from "./routes/CoinPage";
 import Navbar from "./routes/Navbar";
+import { ThemeContext, IThemeContext } from "./features/contexts/theme.context";
 
 import "./App.scss";
 
 function App() {
+  const { theme } = useContext(ThemeContext) as IThemeContext;
+
   return (
-    <div className="app">
+    <div className={`app ${theme}`}>
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />} />

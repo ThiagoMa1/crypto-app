@@ -4,6 +4,8 @@ import {
   NavbarContext,
   INavbarContext,
 } from "../features/contexts/navbar.context";
+import { ReactComponent as SearchLogo } from "../assets/search.svg";
+import { Link } from "react-router-dom";
 
 import "./Home.styles.scss";
 
@@ -23,6 +25,7 @@ const Home: FC = () => {
     const req = await fetch(url);
     const data = await req.json();
 
+    console.log(data);
     setCoins(data);
   };
 
@@ -34,25 +37,37 @@ const Home: FC = () => {
 
   return (
     <main className="home">
+      <Link to="/" className="home__title">
+        <h1>Bem vindo ao CryptoTracker</h1>
+      </Link>
+
       <section className="currency">
+        <div className="search">
+          <input
+            placeholder="Procurar"
+            name="search"
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="search__input"
+          />
+          <SearchLogo />
+        </div>
+
         <div className="currency__list">
           <div className="header">
+            <span>#</span>
             <p>Coin</p>
             <p>Price</p>
             <p>1h</p>
             <p>24h</p>
             <p>Market Cap</p>
           </div>
-          <input
-            placeholder="Procurar"
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
 
           {searchResults.map((coin: any): any => {
             return (
               <Coins
                 key={coin.id}
                 id={coin.id}
+                rank={coin.market_cap_rank}
                 img={coin.image}
                 name={coin.name}
                 symbol={coin.symbol}

@@ -5,7 +5,6 @@ export interface INavbarContext {
   setUserCurrency: (currency: string) => void;
 }
 
-// as the actual value you want to access
 export const NavbarContext = createContext<INavbarContext | null>(null);
 
 export const NavbarProvider: FC<any> = ({ children }) => {

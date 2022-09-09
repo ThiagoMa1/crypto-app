@@ -3,12 +3,19 @@ import {
   NavbarContext,
   INavbarContext,
 } from "../features/contexts/navbar.context";
-import { Outlet } from "react-router-dom";
+import {
+  ThemeContext,
+  IThemeContext,
+} from "../features/contexts/theme.context";
+import { Outlet, Link } from "react-router-dom";
+import { ReactComponent as SunLogo } from "../assets/sun.svg";
+import { ReactComponent as MoonLogo } from "../assets/moon.svg";
 
 import "./Navbar.styles.scss";
 
 const Navbar: FC = () => {
   const { setUserCurrency } = useContext(NavbarContext) as INavbarContext;
+  const { setTheme, theme } = useContext(ThemeContext) as IThemeContext;
   const [currencies, setCurrencies] = useState<string[]>([]);
 
   useEffect(() => {
@@ -27,21 +34,32 @@ const Navbar: FC = () => {
   );
   curatedCurrencyCodes.unshift("brl");
 
+  const handleSetTheme = (theme: string) => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   return (
     <>
       <header className="navbar">
-        <h1 className="navbar__title">CryptoTracker |</h1>
-        <nav>
-          <select onChange={(e) => setUserCurrency(e.target.value)}>
-            {curatedCurrencyCodes.map((currency: string) => (
-              <option
-                key={currency}
-                value={currency}
-                label={currency.toUpperCase()}
-              />
-            ))}
-          </select>
-        </nav>
+        <div className="nav">
+          <div>
+            <select onChange={(e) => setUserCurrency(e.target.value)}>
+              {curatedCurrencyCodes.map((currency: string) => (
+                <option
+                  key={currency}
+                  value={currency}
+                  label={currency.toUpperCase()}
+                />
+              ))}
+            </select>
+
+            {theme === "light" ? (
+              <MoonLogo onClick={() => handleSetTheme(theme)} />
+            ) : (
+              <SunLogo onClick={() => handleSetTheme(theme)} />
+            )}
+          </div>
+        </div>
       </header>
       <Outlet />
     </>

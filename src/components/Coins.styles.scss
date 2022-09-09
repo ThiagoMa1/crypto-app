@@ -3,74 +3,94 @@
   flex-direction: row;
   justify-content: space-between;
   box-shadow: 0 0 6px black;
-  padding: 0.6rem;
+  // padding: 0.2rem;
 
   &__infos {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: space-between;
+    // align-items: center;
+    display: grid;
+    grid-template-columns: 3% 30.95% repeat(3, 15.4%) auto;
     width: 89.2%;
-    overflow: hidden;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .negative {
-      color: #841613;
+      color: #e15241;
     }
     .positive {
       color: #5ca64a;
     }
 
     figure {
-      width: 46%;
+      // width: 48%;
       display: flex;
       align-items: center;
+      text-align: initial;
+      img {
+        margin-right: 10%;
+      }
 
       p:first-of-type {
-        margin-left: 10%;
-        text-align: initial;
         font-weight: 700;
+        color: black;
       }
 
       .coin__symbol {
         margin-left: 5%;
         color: #4a4a4a;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-align: initial;
       }
     }
 
     p {
       display: inline-block;
       text-align: center;
+      margin: auto;
     }
 
     p:not(figure p:first-of-type, p:last-child) {
-      width: 19.5%;
+      // width: 19.5%;
     }
 
-    p:last-of-type {
-      width: 28.95%;
+    .coin__marketCap {
+      // width: 28.95%;
       position: relative;
       left: 1rem;
       text-align: initial;
     }
   }
 
-  &__border {
-    border-bottom: 1px solid white;
-    margin: 5px 0 10px 0;
+  a {
+    text-decoration: none;
+  }
+
+  &__link {
+    border-radius: 4px;
+    background-color: #58dad5;
+    padding: 0.5rem;
+    text-align: center;
+    color: #4a4a4a;
+    font-weight: 600;
+    width: 9.5%;
+    margin: 0.2rem 0.2rem 0.2rem 0;
+    p {
+      margin: auto;
+    }
+
+    &:hover {
+      background-color: #51c8c4;
+    }
   }
 }
 
-a {
-  border-radius: 4px;
-  background-color: #58dad5;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-  text-decoration: none;
-  color: #4a4a4a;
-  font-weight: 600;
-
-  &:hover {
-    background-color: #51c8c4;
-  }
+.coin__border {
+  border-bottom: 1px solid white;
+  margin: 5px 0 10px 0;
 }

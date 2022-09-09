@@ -1,49 +1,151 @@
-import { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { FC, useEffect, useState, useContext } from "react";
+import { useParams, Link } from "react-router-dom";
+import {
+  NavbarContext,
+  INavbarContext,
+} from "../features/contexts/navbar.context";
+import {
+  ThemeContext,
+  IThemeContext,
+} from "../features/contexts/theme.context";
+import { handleFormatting } from "../features/utils/ultils";
+
+import "./CoinPage.styles.scss";
 
 const CoinPage: FC = (): any => {
+  const { userCurrency } = useContext(NavbarContext) as INavbarContext;
+  const { theme } = useContext(ThemeContext) as IThemeContext;
+
   const { coinId } = useParams();
   const [coin, setCoin] = useState<any>();
-  console.log(coin);
+  const [price, setPrice] = useState<any>();
+  const [priceChange, setPriceChange] = useState<any>();
+  const [marketCap, setMarketCap] = useState<any>();
+  const [totalVolume, setTotalVolume] = useState<any>();
+  const [valuation, setValuation] = useState<any>();
 
   useEffect(() => {
     fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`)
       .then((res) => res.json())
-      .then((data) => setCoin(data))
-      .catch((error) => alert(console.log(error)));
-  }, []);
+      .then((data) => {
+        document.title = `Preço ${
+          data.name
+        }(${data.symbol.toUpperCase()}) em ${userCurrency.toUpperCase()}`;
 
-  if (coin) {
-    return (
-      <main className="coin-page">
-        <section className="coin-page__Header">
-          <p>Rank #{coin.coingecko_rank}</p>
-          <img
-            src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579"
-            alt={`${coin.name} logo`}
-          />
-          <h3>
-            {coin.name} <span>({coin.symbol})</span>
-          </h3>
-          <div>
-            {coin.market_data.price_change_percentage_24h_in_currency.usd}
+        setCoin(data);
+        console.log(data);
+
+        getValue(data.market_data.current_price, setPrice);
+        getValue(
+          data.market_data.price_change_percentage_24h_in_currency,
+          setPriceChange
+        );
+        getValue(data.market_data.market_cap, setMarketCap);
+        getValue(data.market_data.total_volume, setTotalVolume);
+        // if (data.market_data.fully_diluted_valuation.length)
+        getValue(data.market_data.fully_diluted_valuation, setValuation);
+      })
+      .catch((error) => alert(console.log(error)));
+  }, [userCurrency]);
+
+  const getValue = (path: any, setFunction: any) => {
+    if (path.usd) {
+      const value = Object.entries(path).filter((cc) => cc[0] === userCurrency);
+      setFunction(value[0][1]);
+    } else {
+      setFunction(0);
+    }
+  };
+
+  if (!coin || !userCurrency) return;
+
+  return (
+    <main className="coin-page">
+      <Link to="/" className="coin-page__title">
+        <h1>CryptoTracker</h1>
+      </Link>
+
+      <div className="coin-page__infos">
+        <section className="coin-header">
+          <p className="coin-header__rank">Rank #{coin.market_cap_rank}</p>
+          <figure>
+            <img src={coin.image.small} alt={`${coin.name} logo`} />
+            <h3>
+              {coin.name} <span>({coin.symbol.toUpperCase()})</span>
+            </h3>
+          </figure>
+
+          <div className="coin-header__price">
+            <p>
+              {handleFormatting(price, userCurrency)}
+              <sup>
+                <span className={priceChange < 0 ? "negative" : "positive"}>
+                  {priceChange.toFixed(1)}%
+                </span>
+              </sup>
+            </p>
           </div>
         </section>
+
         <section className="coin-page__market-data">
-          <p>{coin.market_data.current_price.usd}</p>
-          <p>Market Cap: {coin.market_data.market_cap.usd}</p>
-          <p>24 Horas Vol de Negoc: {coin.market_data.total_volume.usd}</p>
-          <p>
-            Avaliação Totalmente Diluída:
-            {coin.market_data.fully_diluted_valuation.usd}
-          </p>
-          <p>Fornecimento Circulante: {coin.market_data.circulating_supply}</p>
-          <p>Fornecimento Total: {coin.market_data.total_supply}</p>
-          <p>Fornecimento Máximo: {coin.market_data.max_supply}</p>
+          <h2>Dados de Mercado</h2>
+          <div>
+            <p>
+              Market Cap
+              <span className={theme === "light" ? "light" : "dark"}>
+                {handleFormatting(marketCap, userCurrency)}
+              </span>
+            </p>
+
+            <p>
+              24 Horas Vol de Negoc
+              <span className={theme === "light" ? "light" : "dark"}>
+                {handleFormatting(totalVolume, userCurrency)}
+              </span>
+            </p>
+
+            {valuation ? (
+              <p>
+                Avaliação Totalmente Diluída
+                <span className={theme === "light" ? "light" : "dark"}>
+                  {handleFormatting(valuation, userCurrency)}
+                </span>
+              </p>
+            ) : (
+              ""
+            )}
+
+            <p>
+              Fornecimento Circulante
+              <span className={theme === "light" ? "light" : "dark"}>
+                {coin.market_data.circulating_supply}
+              </span>
+            </p>
+
+            <p>
+              Fornecimento Total
+              <span className={theme === "light" ? "light" : "dark"}>
+                {coin.market_data.total_supply}
+              </span>
+            </p>
+
+            {coin.market_data.max_supply ? (
+              <p>
+                Fornecimento Máximo
+                <span className={theme === "light" ? "light" : "dark"}>
+                  {coin.market_data.max_supply
+                    ? coin.market_data.max_supply
+                    : "∞"}
+                </span>
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
         </section>
-      </main>
-    );
-  }
+      </div>
+    </main>
+  );
 };
 
 export default CoinPage;
