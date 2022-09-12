@@ -56,7 +56,6 @@ const Home: FC = () => {
 
         <div className="currency__list">
           <div className="header">
-            <span>#</span>
             <p>Coin</p>
             <p>Price</p>
             <p>1h</p>

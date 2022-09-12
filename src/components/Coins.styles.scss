@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  box-shadow: 0 0 6px black;
-  // padding: 0.2rem;
 
   &__infos {
     // display: flex;
@@ -11,7 +9,7 @@
     // justify-content: space-between;
     // align-items: center;
     display: grid;
-    grid-template-columns: 3% 30.95% repeat(3, 15.4%) auto;
+    grid-template-columns: 31.95% repeat(3, 15.4%) auto;
     width: 89.2%;
     overflow-x: scroll;
 
@@ -49,6 +47,9 @@
       }
     }
 
+    &:not(figure > p) {
+    }
+
     p {
       display: inline-block;
       text-align: center;
@@ -74,15 +75,14 @@
   &__link {
     border-radius: 4px;
     background-color: #58dad5;
-    padding: 0.5rem;
+    padding: 0.5rem 0;
     text-align: center;
     color: #4a4a4a;
     font-weight: 600;
     width: 9.5%;
     margin: 0.2rem 0.2rem 0.2rem 0;
-    p {
-      margin: auto;
-    }
+    font-size: 0.8rem;
+    margin: auto;
 
     &:hover {
       background-color: #51c8c4;
@@ -91,6 +91,6 @@
 }
 
 .coin__border {
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #b9b1b1;
   margin: 5px 0 10px 0;
 }

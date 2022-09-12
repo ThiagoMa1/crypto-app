@@ -34,29 +34,12 @@ const Coins: FC<IProps> = ({
   rank,
 }): any => {
   const { theme } = useContext(ThemeContext) as IThemeContext;
-  // const handleFormatting = (num: number): string => {
-  //   if (cc !== "brl" && cc !== "eur" && cc !== "cad" && cc !== "usd") {
-  //     const newCurrency = new Intl.NumberFormat(undefined, {
-  //       maximumSignificantDigits: 12,
-  //     }).format(+num.toFixed(2));
-
-  //     return `${newCurrency} ${cc.toUpperCase()}`;
-  //   } else {
-  //     const newCurrency = new Intl.NumberFormat(undefined, {
-  //       style: "currency",
-  //       currency: cc,
-  //       maximumSignificantDigits: 12,
-  //     }).format(+num.toFixed(2));
-  //     return newCurrency;
-  //   }
-  // };
 
   if (!name || !hourPercentage) return;
   return (
     <>
       <section className="coin">
         <div className="coin__infos">
-          <p>{rank}</p>
           <figure>
             <img src={img} alt={`${name} logo`} />
             <Link to={`/coin/${id}`}>
@@ -80,7 +63,7 @@ const Coins: FC<IProps> = ({
           <p className="coin__marketCap">{handleFormatting(marketCap, cc)}</p>
         </div>
         <Link to={`/coin/${id}`} className="coin__link">
-          Mais Infos
+          +Info
         </Link>
       </section>
       <div className="coin__border"></div>
