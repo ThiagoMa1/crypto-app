@@ -6,6 +6,7 @@ import {
 } from "../features/contexts/currency.context";
 import { ReactComponent as SearchLogo } from "../assets/search.svg";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 import "./Home.styles.scss";
 
@@ -14,6 +15,7 @@ const Home: FC = () => {
   const { userCurrency } = useContext(CurrencyContext) as ICurrencyContext;
   const [coins, setCoins] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getData(
@@ -22,10 +24,16 @@ const Home: FC = () => {
   }, [userCurrency]);
 
   const getData = async (url: string) => {
-    const req = await fetch(url);
-    const data = await req.json();
+    try {
+      setIsLoading(true);
+      const req = await fetch(url);
+      const data = await req.json();
 
-    setCoins(data);
+      setIsLoading(false);
+      setCoins(data);
+    } catch (error: any) {
+      alert(error.message);
+    }
   };
 
   let searchResults = coins.filter(
@@ -63,6 +71,7 @@ const Home: FC = () => {
             <p>Market Cap</p>
           </div>
 
+          {isLoading && <Spinner />}
           {searchResults.map((coin: any): any => {
             return (
               <Coins

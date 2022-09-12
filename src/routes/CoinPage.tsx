@@ -25,26 +25,33 @@ const CoinPage: FC = (): any => {
   const [valuation, setValuation] = useState<any>();
 
   useEffect(() => {
-    fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        document.title = `Preço ${
-          data.name
-        }(${data.symbol.toUpperCase()}) em ${userCurrency.toUpperCase()}`;
-
-        setCoin(data);
-
-        getValue(data.market_data.current_price, setPrice);
-        getValue(
-          data.market_data.price_change_percentage_24h_in_currency,
-          setPriceChange
-        );
-        getValue(data.market_data.market_cap, setMarketCap);
-        getValue(data.market_data.total_volume, setTotalVolume);
-        getValue(data.market_data.fully_diluted_valuation, setValuation);
-      })
-      .catch((error) => alert(error));
+    getData(`https://api.coingecko.com/api/v3/coins/${coinId}`);
   }, [userCurrency]);
+
+  const getData = (path: string) => {
+    try {
+      fetch(path)
+        .then((res) => res.json())
+        .then((data) => {
+          document.title = `Preço ${
+            data.name
+          }(${data.symbol.toUpperCase()}) em ${userCurrency.toUpperCase()}`;
+
+          setCoin(data);
+
+          getValue(data.market_data.current_price, setPrice);
+          getValue(
+            data.market_data.price_change_percentage_24h_in_currency,
+            setPriceChange
+          );
+          getValue(data.market_data.market_cap, setMarketCap);
+          getValue(data.market_data.total_volume, setTotalVolume);
+          getValue(data.market_data.fully_diluted_valuation, setValuation);
+        });
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   const getValue = (path: any, setFunction: any) => {
     if (path.usd) {

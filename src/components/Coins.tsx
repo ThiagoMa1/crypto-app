@@ -62,7 +62,7 @@ const Coins: FC<IProps> = ({
           </p>
           <p className="coin__marketCap">{handleFormatting(marketCap, cc)}</p>
         </div>
-        <Link to={`/coin/${id}`} className="coin__link">
+        <Link to={`/coin/${id}`} className="coin__link" translate="no">
           +Info
         </Link>
       </section>
